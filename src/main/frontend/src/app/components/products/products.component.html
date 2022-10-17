@@ -1,0 +1,43 @@
+<div *ngIf="products.length==0" class="alert alert-warning col-md-12" role="alert">No products found.</div>
+
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+  <div class="col" *ngFor="let product of products">
+    <div class="card mb-4 rounded-3 shadow-sm" >
+      <a routerLink="/product/{{product.id}}">
+      <img class="bd-placeholder-img card-img-top" src = "{{product.imageUrl}}"/>
+      </a>
+      <a class="product-name" routerLink="/product/{{product.id}}">
+      <strong style = "white-space: nowrap;overflow: hidden; text-overflow: ellipsis;max-width:100ch">{{product.name}}</strong>
+      </a>
+      <br>
+      <p><strong>Price:</strong>{{product.unitPrice | currency :'EUR'}}</p>
+      <button class=" btn btn-primary"(click)= addToCart(product)>Add to card</button>
+      </div>
+    </div>
+  </div>
+
+<!--      begin footer-->
+
+<div class="d-flex justify-content-end">
+
+          <ngb-pagination size="sm"  [(page)]="thePageNumber"
+                          [pageSize]="thePageSize"
+                          [collectionSize]="theTotalElements"
+                          [maxSize]="5"
+                          [boundaryLinks]="true"
+                          (pageChange)="getProducts()">
+
+          </ngb-pagination>
+
+        <div class="col-md-3 mt-2" style="text-align: right">
+
+          <span class="mr-2">Page Size</span>
+          <select #myPageSelect (change) = "updatePageSize(myPageSelect.value)">
+            <option selected="true">5</option>
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+        </div>
+</div>
+<!--      end footer-->

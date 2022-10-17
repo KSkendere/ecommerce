@@ -1,0 +1,21 @@
+
+<!--<div class="menu-sidebar-content js-scrollbar1">-->
+  <nav class="navbar-sidebar">
+    <ul class="list-unstyled navbar-list">
+
+      <li *ngFor = "let tempCategory of categories">
+        <a routerLink="/category/{{tempCategory.id}}" routerLinkActive="active-link">{{tempCategory.categoryName}}</a>
+      </li>
+    </ul>
+  </nav>
+
+<nav  *ngIf="userService.roleMatch(['admin'])" class="navbar-sidebar">
+  <ul class="list-unstyled navbar-list">
+
+    <li >
+      <a  routerLink="admin/add-product" routerLinkActive="active-link">Add products</a>
+      <a  routerLink="admin/product-details" routerLinkActive="active-link">Product details</a>
+    </li>
+  </ul>
+</nav>
+<!--</div>-->

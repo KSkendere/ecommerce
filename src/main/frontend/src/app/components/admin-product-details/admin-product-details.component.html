@@ -1,0 +1,83 @@
+<!--<div class="main-content">-->
+<!--  <div class="section-container section-content-p30">-->
+    <div class="container-fluid">
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Image</th>
+    <th scope="col">Category</th>
+    <th scope="col">Sku</th>
+    <th scope="col">Name</th>
+    <th scope="col">Description</th>
+    <th scope="col">Price</th>
+    <th scope="col">Units in stock</th>
+    <th scope="col">Date Created</th>
+    <th scope="col">Last Updated</th>
+    <th scope="col">Actions</th>
+<!--    <th scope="col">Update</th>-->
+<!--    <th scope="col">Delete</th>-->
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of productsDtoForAdmin">
+    <td >{{product.id}}</td>
+    <td> <img src="{{product.imageUrl}}" alt="" class="img-responsive" width="150px"></td>
+    <td>{{product.category.categoryName}}</td>
+    <td>{{product.sku}}</td>
+    <td>{{product.name}}</td>
+    <td style = "white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 20ch">{{product.description}}</td>
+    <td>{{product.unitPrice| currency :'EUR'}}</td>
+    <td>{{product.unitsInStock}}</td>
+    <td>{{product.dateCreated|date}}</td>
+    <td>{{product.lastUpdated|date}} </td>
+    <td>
+      <i class="fa-sharp fa-solid fa-pen" routerLink="/admin/update-product/{{product.id}}"></i>
+      <i  class = "fa-sharp fa-solid fa-trash" (click)="deleteProduct(product.id)"></i>
+<!--      <button class="fa fa-edit" [routerLink]="[product.id]">Edit</button>-->
+    </td>
+
+
+<!--    <td>-->
+<!--&lt;!&ndash;      <button class="fa fa-delete" (click)="onRemoveClick(product.id)"> Remove</button>&ndash;&gt;-->
+<!--&lt;!&ndash;      <button mat-button><i class="fa fa-delete" ></i> Delete </button>&ndash;&gt;-->
+<!--      <i  class = "fa-sharp fa-solid fa-trash"></i>-->
+
+<!--&lt;!&ndash;      <i style = "font-size: 30px" class = "fas fa-cart-plus"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;      <i class="fa-sharp fa-solid fa-trash"></i>&ndash;&gt;-->
+<!--    </td>-->
+
+
+
+
+
+  </tr>
+
+  </tbody>
+</table>
+    </div>
+<!--      begin footer-->
+
+<div class="d-flex justify-content-end">
+
+  <ngb-pagination size="sm"  [(page)]="thePageNumber"
+                  [pageSize]="thePageSize"
+                  [collectionSize]="theTotalElements"
+                  [maxSize]="5"
+                  [boundaryLinks]="true"
+                  (pageChange)="getProductsWithPagination()">
+
+  </ngb-pagination>
+
+  <div class="col-md-3 mt-2" style="text-align: right">
+
+    <span class="mr-2">Page Size</span>
+    <select #myPageSelect (change) = "updatePageSize(myPageSelect.value)">
+      <option selected="true">5</option>
+      <option>10</option>
+      <option>20</option>
+      <option>50</option>
+    </select>
+  </div>
+</div>
+<!--      end footer-->
