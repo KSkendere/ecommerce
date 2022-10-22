@@ -4,6 +4,7 @@ package com.kristineskendere.ecommerceapp.services;
 import com.kristineskendere.ecommerceapp.dtos.ProductDto;
 import com.kristineskendere.ecommerceapp.dtos.mappers.ProductMapper;
 import com.kristineskendere.ecommerceapp.exceptions.ProductNotFoundException;
+import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
 import com.kristineskendere.ecommerceapp.models.Product;
 import com.kristineskendere.ecommerceapp.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
@@ -16,11 +17,8 @@ import java.util.List;
 @Service
 //@Transactional
 public class ProductServiceImpl implements ProductService{
-
     private ProductRepository productRepository;
-
     private ProductMapper productMapper;
-
 
     public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
@@ -33,9 +31,9 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product getProductById(Long id) throws ProductNotFoundException {
-        return productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("product not Found"));
-//        return productRepository.findById(id).orElseThrow();
+    public ProductDto getProductDtoById(Long id) throws RecordNotFoundException {
+        Product product = productRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("product not Found"));
+        return productMapper.productEntityToDto(product);
     }
 
     @Override
@@ -45,27 +43,27 @@ public class ProductServiceImpl implements ProductService{
         return productMapper.productEntityToDto(savedProduct);
     }
 
-
     @Override
     public List<Product> getProductByCategoryId(Long id) {
         return productRepository.findByCategoryId(id);
     }
     @Override
-    public Page<Product> findProductWithPagination(int pageNo, int pageSize) {
+    public Page<ProductDto> findProductWithPagination(int pageNo, int pageSize) {
         Pageable page = PageRequest.of(pageNo,pageSize);
-        return productRepository.findAll(page);
+        productMapper.entityToDtoPage(productRepository.findAll(page));
+        return productMapper.entityToDtoPage(productRepository.findAll(page));
     }
 
     @Override
-    public Page<Product> getProductByCategoryIdWithPagination(Long id, int pageNo, int pageSize) {
+    public Page<ProductDto> getProductByCategoryIdWithPagination(Long id, int pageNo, int pageSize) {
         Pageable page = PageRequest.of(pageNo,pageSize);
-        return productRepository.findByCategoryId(id, page);
+        return productMapper.entityToDtoPage(productRepository.findByCategoryId(id, page));
     }
 
     @Override
-    public Page<Product> findProductBySearchName(String searchName, int pageNo, int pageSize) {
+    public Page<ProductDto> findProductBySearchName(String searchName, int pageNo, int pageSize) {
         Pageable page = PageRequest.of(pageNo,pageSize);
-        return productRepository.findByNameContaining(searchName, page);
+        return productMapper.entityToDtoPage(productRepository.findByNameContaining(searchName, page));
     }
 
     @Override
@@ -77,6 +75,5 @@ public class ProductServiceImpl implements ProductService{
     public ProductDto updateProduct(Long id, ProductDto productDto) {
         Product savedProduct = productRepository.save(productMapper.productDtoToEntity(productDto));
         return(productMapper.productEntityToDto(savedProduct));
-
     }
 }

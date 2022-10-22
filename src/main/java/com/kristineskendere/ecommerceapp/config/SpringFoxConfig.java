@@ -1,4 +1,4 @@
-package com.kristineskendere.ecommerceapp.dtos.config;
+package com.kristineskendere.ecommerceapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

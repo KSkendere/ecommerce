@@ -10,14 +10,16 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 public class Product implements Serializable {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,26 +29,32 @@ public class Product implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-    @NotEmpty(message = "Product name is required.")
+    @NotEmpty(message = "Product sku name is required.")
+    @Size(min = 2, max = 24, message = "Product sku must be between 2 and 24 characters long")
     @Basic(optional = false)
-    @Column (name = "sku")
+    @Column (name = "sku", unique=true)
     private String sku;
     @Column (name = "name")
-    @NotEmpty(message = "Product name is required.")
+    @NotBlank(message = "Product name is required.")
     private String name;
+    @NotBlank(message = "Product description is required.")
     @Column (name = "description")
     private String description;
+    @NotNull(message = "Unit Price is required.")
     @Column (name = "unit_price")
-    private double unitPrice;
+    private BigDecimal unitPrice;
     @Column (name = "image_url")
     private String imageUrl;
     @Column (name = "active")
     private boolean active;
+    @NotNull(message= "Units in stock may not be empty")
     @Column (name = "units_in_stock")
     private int unitsInStock;
+
     @CreationTimestamp
     @Column (name = "date_created")
     private Date dateCreated;
+
     @UpdateTimestamp
     @Column (name = "last_updated")
     private Date lastUpdated;
@@ -54,7 +62,8 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(Long id, Category category, String sku, String name, String description, double unitPrice, String imageUrl, boolean active, int unitsInStock, Date dateCreated, Date lastUpdated) {
+    public Product(Long id, Category category, String sku, String name, String description, BigDecimal unitPrice, String imageUrl,
+                   boolean active, int unitsInStock, Date dateCreated, Date lastUpdated) {
         this.id = id;
         this.category = category;
         this.sku = sku;
@@ -109,11 +118,11 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public double getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 

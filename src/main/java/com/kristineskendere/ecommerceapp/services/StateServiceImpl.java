@@ -2,14 +2,13 @@ package com.kristineskendere.ecommerceapp.services;
 
 import com.kristineskendere.ecommerceapp.dtos.StateDto;
 import com.kristineskendere.ecommerceapp.dtos.mappers.StateMapper;
+import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
 import com.kristineskendere.ecommerceapp.models.State;
 import com.kristineskendere.ecommerceapp.repositories.StateRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,18 +26,36 @@ public class StateServiceImpl implements StateService {
     public List<StateDto> findAllStates() {
 
         List<State>states = stateRepository.findAll();
-        return states.stream().map(state-> stateMapper.stateEntityToDto(state)).collect(Collectors.toList());
+        return stateMapper.entityToDtoList(states);
     }
 
     @Override
     public List<StateDto> findAllStatesByCountryCode(String countryCode) {
         List<State> findAllStatesByCountryCode = stateRepository.findAllByCountryCode(countryCode);
-        return findAllStatesByCountryCode.stream().map(state -> stateMapper.stateEntityToDto(state)).collect(Collectors.toList());
+        return stateMapper.entityToDtoList(findAllStatesByCountryCode);
     }
 
     @Override
-    public StateDto findStateById(int id) {
-        Optional<State> state = stateRepository.findById(id);
-        return stateMapper.stateEntityToDto(state.get());
+    public StateDto findStateById(int id) throws RecordNotFoundException {
+        State state = stateRepository.findById(id).orElseThrow(()->new RecordNotFoundException("State with such id not found"));
+        return stateMapper.stateEntityToDto(state);
+    }
+
+    @Override
+    public StateDto saveState(StateDto stateDto) {
+        State state = stateRepository.save(stateMapper.stateDtoToEntity(stateDto));
+        return stateMapper.stateEntityToDto(state);
+    }
+
+    @Override
+    public StateDto updateState(int id, StateDto stateDto) {
+        State state = stateRepository.save(stateMapper.stateDtoToEntity(stateDto));
+        return stateMapper.stateEntityToDto(state);
+    }
+
+    @Override
+    public void deleteState(int id) {
+        stateRepository.deleteById(id);
+
     }
 }

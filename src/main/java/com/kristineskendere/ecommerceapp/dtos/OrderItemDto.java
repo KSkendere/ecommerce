@@ -1,41 +1,42 @@
-package com.kristineskendere.ecommerceapp.models;
+package com.kristineskendere.ecommerceapp.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.kristineskendere.ecommerceapp.models.Order;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "order_item")
+public class OrderItemDto {
 
-
-public class OrderItem {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
 
     private Long id;
     @NotBlank(message = "Product image url is required.")
-    @Column(name = "image_url")
     private String imageUrl;
     @NotNull(message = " Product unit price is required.")
-    @Column(name = "unit_price")
     private BigDecimal unitPrice;
-    @NotNull(message = "Product quantity is required.")
-    @Column(name = "quantity")
+    @NotNull(message = " Product quantity is required.")
     private int quantity;
     @NotNull(message = "Product id is required.")
-    @Column(name = "product_id")
     private Long productId;
-    @ManyToOne
-    @JoinColumn(name="order_id")
+    //    @ManyToOne
+//    @JoinColumn(name="order_id")
     @NotNull(message = "Product order is required.")
-    private Order order;
+    private OrderDto orderdto;
+
+    public OrderItemDto() {
+    }
+
+    public OrderItemDto(Long id, String imageUrl, BigDecimal unitPrice, int quantity, Long productId, OrderDto orderdto) {
+        this.id = id;
+        this.imageUrl = imageUrl;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.productId = productId;
+        this.orderdto = orderdto;
+    }
 
     public Long getId() {
         return id;
@@ -77,11 +78,11 @@ public class OrderItem {
         this.productId = productId;
     }
 
-    public Order getOrder() {
-        return order;
+    public OrderDto getOrderdto() {
+        return orderdto;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderdto(OrderDto orderdto) {
+        this.orderdto = orderdto;
     }
 }

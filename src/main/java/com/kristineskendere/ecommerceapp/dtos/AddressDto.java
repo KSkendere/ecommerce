@@ -1,38 +1,43 @@
-package com.kristineskendere.ecommerceapp.models;
+package com.kristineskendere.ecommerceapp.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.kristineskendere.ecommerceapp.dtos.OrderDto;
+import com.kristineskendere.ecommerceapp.models.Order;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "adress")
+public class AddressDto{
 
-
-public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
     @NotBlank(message = "Street name is required")
-    @Column(name = "street")
     private String street;
     @NotBlank(message = "City name is required")
-    @Column(name = "city")
     private String city;
     @NotBlank(message = "State name is required")
-    @Column(name = "state")
     private String state;
     @NotBlank(message = "Country name is required")
-    @Column(name = "country")
     private String country;
     @NotBlank(message = "Zip code is required")
-    @Column(name = "zip_code")
     private String zipCode;
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Order order;
+//    @OneToOne
+//    @PrimaryKeyJoinColumn
+    @NotNull(message = "Order is required")
+    private OrderDto orderDto;
+
+    public AddressDto() {
+    }
+
+    public AddressDto(Long id, String street, String city, String state, String country, String zipCode, OrderDto orderDto) {
+        this.id = id;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.zipCode = zipCode;
+        this.orderDto = orderDto;
+    }
 
     public Long getId() {
         return id;
@@ -82,12 +87,11 @@ public class Address {
         this.zipCode = zipCode;
     }
 
-    public Order getOrder() {
-        return order;
+    public OrderDto getOrderDto() {
+        return orderDto;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderDto(OrderDto orderDto) {
+        this.orderDto = orderDto;
     }
 }
-

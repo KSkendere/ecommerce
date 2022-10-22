@@ -1,4 +1,4 @@
-package com.kristineskendere.ecommerceapp.dtos.config;
+package com.kristineskendere.ecommerceapp.config;
 
 import com.kristineskendere.ecommerceapp.jwt.JwtTokenFilter;
 import com.kristineskendere.ecommerceapp.models.authModels.User;
@@ -86,6 +86,7 @@ public class ApplicationSecurityConfig  {
         http.authorizeRequests()
 //                .antMatchers("/auth/login", "/docs/**", "/error").permitAll()
 //                .anyRequest().authenticated();
+                .antMatchers(("/api/ecommerce/products/admin/**")).hasRole("admin")
                 .anyRequest().permitAll();
 
         http.exceptionHandling()

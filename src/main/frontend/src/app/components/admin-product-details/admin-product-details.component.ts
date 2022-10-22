@@ -50,6 +50,7 @@ export class AdminProductDetailsComponent implements OnInit {
   deleteProduct(id: number) {
     this.productService.deleteProduct(id).subscribe(
       response => {
+        alert(`"${response.name}" has been deleted successfully.`)
         console.log(response);
 
         this.getProductsWithPagination()

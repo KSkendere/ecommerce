@@ -3,6 +3,9 @@ package com.kristineskendere.ecommerceapp.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -13,9 +16,12 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "code")
+    @NotEmpty(message = "Country code is required.")
+    @Size(min = 3, max = 3, message = "Country code must be between 3 characters long")
+    @Column(name = "code",unique = true)
     private String code;
-    @Column(name = "name")
+    @NotBlank(message = "Country name is required.")
+    @Column(name = "name",unique = true)
     private String name;
     @OneToMany (mappedBy = "country")
     private List<State> state;

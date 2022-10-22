@@ -6,15 +6,20 @@ import com.kristineskendere.ecommerceapp.models.Order;
 import com.kristineskendere.ecommerceapp.models.OrderItem;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 
 public class PurchaseDto {
-
+    @NotNull(message = "Customer is required.")
     private Customer customer;
+    @NotNull(message = "Shipping Address is required.")
     private Address shippingAddress;
+    @NotNull(message = "Billing Adress is required.")
     private Address billingAddress;
+    @NotNull(message = "Order is required.")
     private Order order;
+    @NotNull(message = "Order items are required.")
     private Set<OrderItem> orderItems;
 
     public PurchaseDto() {

@@ -1,38 +1,47 @@
-package com.kristineskendere.ecommerceapp.models;
+package com.kristineskendere.ecommerceapp.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.*;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "customer")
+public class CustomerDto{
 
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
     private Long id;
     @NotBlank(message = "First name is required.")
-
-    @Column(name="first_name")
     private String firstName;
     @NotBlank(message = "Last name is required.")
-    @Column(name="last_name")
     private String lastName;
     @Email
     @NotBlank(message = "Email is required.")
-    @Column(name="email",unique = true)
-    private String email;
-    @NotNull(message = "Orders are required")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Set<Order> orders = new HashSet<>();
 
+    private String email;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+@NotNull(message = "Orders are required")
+    private Set<OrderDto> orderDtos = new HashSet<>();
+
+    public CustomerDto() {
+    }
+
+    public CustomerDto(Long id, String firstName, String lastName, String email, Set<OrderDto> orderDtos) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.orderDtos = orderDtos;
+    }
+    public void addOrderDto(OrderDto orderDto){
+        if(orderDto!=null){
+            if(orderDtos==null){
+                orderDtos = new HashSet<>();
+            }
+            orderDtos.add(orderDto);
+            orderDto.setCustomerDto(this);
+        }
+    }
 
     public Long getId() {
         return id;
@@ -66,23 +75,11 @@ public class Customer {
         this.email = email;
     }
 
-    public Set<Order> getOrders() {
-        return orders;
+    public Set<OrderDto> getOrderDtos() {
+        return orderDtos;
     }
 
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
+    public void setOrderDtos(Set<OrderDto> orderDtos) {
+        this.orderDtos = orderDtos;
     }
-
-    public void addOrder(Order order){
-        if(order!=null){
-            if(orders==null){
-                orders = new HashSet<>();
-            }
-            orders.add(order);
-order.setCustomer(this);
-        }
-    }
-
-
 }

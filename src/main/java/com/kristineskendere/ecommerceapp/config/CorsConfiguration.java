@@ -1,4 +1,4 @@
-package com.kristineskendere.ecommerceapp.dtos.config;
+package com.kristineskendere.ecommerceapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +18,7 @@ public class CorsConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200")
                         .allowedMethods(GET, POST, PUT, DELETE)
                         .allowedHeaders("*")
                         .allowedOriginPatterns("*")

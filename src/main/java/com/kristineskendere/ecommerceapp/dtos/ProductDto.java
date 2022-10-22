@@ -1,38 +1,35 @@
 package com.kristineskendere.ecommerceapp.dtos;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kristineskendere.ecommerceapp.models.Category;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
-public class ProductDto  implements  Serializable{
+public class ProductDto {
 
     private Long id;
-
+    @NotNull (message = "Product category is required.")
     private Category category;
-
+    @NotEmpty(message = "Product sku name is required.")
+    @Size(min = 2, max = 24, message = "Product sku must be between 2 and 24 characters long")
     private String sku;
-
+    @NotBlank(message = "Product name is required.")
     private String name;
-
+    @NotBlank(message = "Product description is required.")
     private String description;
-
-    private double unitPrice;
-
+    @NotNull(message = "Unit price is required.")
+    private BigDecimal unitPrice;
     private String imageUrl;
 
     private boolean active;
-
+    @NotNull(message= "Units in stock may not be empty")
     private int unitsInStock;
 
-//    private Date dateCreated;
-//
-//    private Date lastUpdated;
 
-
-    public ProductDto(Long id, Category category, String sku, String name, String description, double unitPrice, String imageUrl, boolean active, int unitsInStock) {
+    public ProductDto(Long id, Category category, String sku, String name, String description, BigDecimal unitPrice, String imageUrl, boolean active, int unitsInStock) {
         this.id = id;
         this.category = category;
         this.sku = sku;
@@ -88,11 +85,11 @@ public class ProductDto  implements  Serializable{
         this.description = description;
     }
 
-    public double getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(double unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 

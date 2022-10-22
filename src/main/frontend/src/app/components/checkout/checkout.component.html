@@ -30,7 +30,7 @@
         <div class="row">
           <div class="col-md-2"><label>Email Address</label></div>
           <div class="col-md-9">
-            <div class="input-space"><input formControlName="emailAddress" type="text">
+            <div class="input-space"><input formControlName="email" type="text">
               <div *ngIf="email.invalid && (email.dirty||email.touched)" class="alert alert-danger mt-1">
                 <div *ngIf="email.errors.required">Email is required</div>
                 <div *ngIf="email.errors.pattern">Email must be a valid email address format</div>

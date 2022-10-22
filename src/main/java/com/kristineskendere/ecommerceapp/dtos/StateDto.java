@@ -6,6 +6,8 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 //@Component
@@ -13,11 +15,11 @@ import java.io.Serializable;
 public class StateDto implements Serializable {
 
     private int id;
+    @NotBlank(message = "State name is required.")
     private String name;
+    @NotEmpty(message = "Country is required.")
     private Country country;
 
-    public StateDto() {
-    }
 
     public int getId() {
         return id;

@@ -1,13 +1,17 @@
 package com.kristineskendere.ecommerceapp.services;
 
+import com.kristineskendere.ecommerceapp.dtos.CategoryDto;
+import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
 import com.kristineskendere.ecommerceapp.models.Category;
 
 import java.util.List;
 
 public interface CategoryService {
-    void saveCategory(Category category);
+    CategoryDto saveCategory(CategoryDto categoryDto);
 
-    Category getCategory(Long id);
+    CategoryDto getCategory(Long id) throws RecordNotFoundException;
 
-    List<Category> getCategories();
+    List<CategoryDto> getCategories();
+
+    void deleteCategory(Long id);
 }

@@ -30,13 +30,20 @@ this.getProductCategories();
  public addProduct(productForm: NgForm) {
 
    this.productService.saveProduct(this.productDto).subscribe(
-     (resp:ProductDto)=>{
+     (data)=>{
+
+       alert(`"${data.name}" has been saved successfully.`)
        this.clearForm(productForm);
      },
      (error: HttpErrorResponse)=>{
        console.log(error);}
 
    )
+
+
+
+
+
 
   }
   private getProductCategories(){

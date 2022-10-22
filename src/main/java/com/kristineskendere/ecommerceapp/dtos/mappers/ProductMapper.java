@@ -1,13 +1,11 @@
 package com.kristineskendere.ecommerceapp.dtos.mappers;
 
 import com.kristineskendere.ecommerceapp.dtos.ProductDto;
-import com.kristineskendere.ecommerceapp.dtos.StateDto;
 import com.kristineskendere.ecommerceapp.models.Product;
-import com.kristineskendere.ecommerceapp.models.State;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
@@ -16,5 +14,26 @@ public interface ProductMapper {
     Product productDtoToEntity(ProductDto productDto);
 
     List<ProductDto> entityToDtoList(List<Product> products);
-    List<Product>dtoToEntityList(List<ProductDto>productDtos);
+
+    List<Product> dtoToEntityList(List<ProductDto> productDtos);
+
+    default Page<ProductDto> entityToDtoPage(Page<Product> productPage) {
+        Page<ProductDto> dtos = productPage.map(this::productEntityToDto);
+        return dtos;
+    }
+
+    default Page<Product> DtoToEntityPage(Page<ProductDto> productDtoPage) {
+        Page<Product> entities = productDtoPage.map(this::productDtoToEntity);
+        return entities;
+    }
+
 }
+
+
+
+
+
+
+
+
+

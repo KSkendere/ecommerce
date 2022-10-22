@@ -41,12 +41,34 @@ export class AdminUpdateProductComponent implements OnInit {
 
     this.productService.updateProduct(this.productDto,productId).subscribe(data=>{
 
+        alert(`"${data.name}" has been updated successfully.`)
+
       this.goBack();
       },
       error=>console.log(error));
 
 
   }
+
+
+  // updateProduct(productForm: NgForm) {
+  //
+  //   const productId: number = +this.route.snapshot.paramMap.get("id")!;
+  //
+  //   this.productService.updateProduct(this.productDto,productId).subscribe({
+  //     next:response=>{
+  //       alert(`Product has beer updated successfully.\nUpdated product name: ${response.name}`)
+  //
+  //       //reset cart
+  //       this.goBack();
+  //     },
+  //     error: err=>{
+  //       alert(`There was an error: ${err.message}`);
+  //
+  //     },
+  //   });
+  //
+  // }
 
   private getProductCategories(){
     this.productCategoryService.getProductCategories().subscribe(data=>{

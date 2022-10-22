@@ -6,6 +6,8 @@ import com.kristineskendere.ecommerceapp.services.CheckoutService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/ecommerce")
@@ -19,7 +21,7 @@ public class CheckoutController {
 
     @PostMapping("/purchase")
 
-    public ResponseEntity<PurchaseResponseDto> placeOrder(@RequestBody PurchaseDto purchaseDto){
+    public ResponseEntity<PurchaseResponseDto> placeOrder(@Valid @RequestBody PurchaseDto purchaseDto){
         PurchaseResponseDto purchaseResponseDto = checkoutService.placeOrder(purchaseDto);
         return ResponseEntity.ok(purchaseResponseDto);
     }

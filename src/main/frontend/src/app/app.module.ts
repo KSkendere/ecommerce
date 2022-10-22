@@ -14,7 +14,6 @@ import { CartStatusComponent } from './components/cart-status/cart-status.compon
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { LoginComponent } from './components/login/login.component';
-import {LoginService} from "./services/login.service";
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { UserPageComponent } from './components/user-page/user-page.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
@@ -60,7 +59,7 @@ import { AdminUpdateProductComponent } from './components/admin-update-product/a
     ReactiveFormsModule,
     RouterModule
   ],
-  providers: [LoginService,
+  providers: [
   AuthGuard,
     {provide: HTTP_INTERCEPTORS,
     useClass:AuthInterceptor,

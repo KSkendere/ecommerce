@@ -76,17 +76,17 @@ export class ProductService {
     return this.httpClient.get<GetResponseProducts>(productByCategoryWithPaginationUrl);
   }
 
-  saveProduct(productDto:ProductDto){
-    return this.httpClient.post<ProductDto>(this.baseURL, productDto);
+  saveProduct(productDto:ProductDto):Observable<ProductDto>{
+    return this.httpClient.post<ProductDto>(`${this.baseURL}/admin`, productDto);
   }
 
-  updateProduct(productDto:ProductDto, productId: number){
-    return this.httpClient.put<ProductDto>(`${this.baseURL}/${productId}`, productDto);
+  updateProduct(productDto:ProductDto, productId: number) :Observable<ProductDto>{
+    return this.httpClient.put<ProductDto>(`${this.baseURL}/admin/${productId}`, productDto);
   }
 
-  deleteProduct(id: number) {
+  deleteProduct(id: number) :Observable<ProductDto> {
 
-    return this.httpClient.delete(`${this.baseURL}/${id}`)
+    return this.httpClient.delete<ProductDto>(`${this.baseURL}/admin/${id}`)
 
   }
 

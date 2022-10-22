@@ -8,17 +8,21 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
 //@Component
 //@Data
-public class CountryDto {
+public class CountryDto implements  Serializable {
 
     private int id;
-
+    @NotEmpty(message = "Country code is required.")
+    @Size(min = 3, max = 3, message = "Country code must be between 3 characters long")
     private String code;
-
+    @NotBlank(message = "Country name is required.")
     private String name;
 //@JsonIgnore
     private List<State> state;

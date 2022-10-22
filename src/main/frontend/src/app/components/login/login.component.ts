@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserAuthService} from "../../services/user-auth.service";
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
+import {AuthGuard} from "../../auth/auth.guard";
 
 @Component({
   selector: 'app-login',
@@ -10,9 +11,10 @@ import {UserService} from "../../services/user.service";
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private userAuthService: UserAuthService, private  router: Router, public userService: UserService) { }
+  constructor(private userAuthService: UserAuthService, private  router: Router, public userService: UserService, private authGuard: AuthGuard) { }
 
   ngOnInit(): void {
+
   }
 
   public isLoggedIn(){
@@ -23,6 +25,7 @@ export class LoginComponent implements OnInit {
     this.userAuthService.clear();
     this.router.navigate(["/products"])
   }
+
 
 
 }

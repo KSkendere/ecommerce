@@ -20,10 +20,15 @@
 
 <!--</ul>-->
 
-<div>
 
+
+
+<div>
+ <cite *ngIf="isLoggedIn()">You are logged in</cite>
   <button *ngIf="!isLoggedIn()"  class="btn btn-primary" routerLink ="/login-page">Login</button>
   <button  *ngIf="isLoggedIn()"  class="btn btn-primary" (click) ="logout()">Logout</button>
+
+<!--  <button  *ngIf="isLoggedIn()"  class="btn btn-primary" (click) ="getEmail()">GetEmail</button>-->
 <!--  <button     *ngIf="userService.roleMatch(['admin'])" class="btn btn-primary" routerLink ="/admin">Admin</button>-->
 </div>
 
