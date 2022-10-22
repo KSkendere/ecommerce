@@ -52,6 +52,7 @@ public class CountryIT {
             assertThat(allCountries.get(1).getId()).isEqualTo(2);
             assertThat(allCountries.get(1).getName()).isEqualTo("Test2");
             assertThat(allCountries.get(1).getCode()).isEqualTo("T2");
+
         }
 
 
