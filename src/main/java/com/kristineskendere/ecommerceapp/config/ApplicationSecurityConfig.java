@@ -106,7 +106,7 @@ public class ApplicationSecurityConfig  {
 
 //    @Bean
 //    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
+    //        return new BCryptPasswordEncoder();
 //    }
 
 
