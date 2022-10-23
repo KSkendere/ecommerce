@@ -37,7 +37,9 @@ stage ('Deploy'){
 
 steps{
 
-bat 'cd src/ ; EcommerceApplication'
+bat 'cd src/ ; java EcommerceApplication'
+
+
 
 }
 }
