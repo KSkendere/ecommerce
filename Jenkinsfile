@@ -3,15 +3,15 @@ agent any
 
 stages{
 
-stage ('Checkout Codebase'){
-
-steps{
-cleanWS()
-checkout scm: [&class: 'GitSCM', branches:[[name:'*/main']],
-userRemoteConfigs:[[username: 'KSkendere', password: 'Oskars12', url:'git@github.com:KSkendere/ecommerce.git']]]
-
-}
-}
+// stage ('Checkout Codebase'){
+//
+// steps{
+// cleanWS()
+// checkout scm: [&class: 'GitSCM', branches:[[name:'*/main']],
+// userRemoteConfigs:[[username: 'KSkendere', password: 'Oskars12', url:'git@github.com:KSkendere/ecommerce.git']]]
+//
+// }
+// }
 
 stage ('Build'){
 
