@@ -7,7 +7,7 @@ stage ('Checkout Codebase'){
 
 steps{
 cleanWS()
-scheckout scm: [&class: 'GitSCM', branches:[[name:'*/main']],
+checkout scm: [&class: 'GitSCM', branches:[[name:'*/main']],
 userRemoteConfigs:[[username: 'KSkendere', password: 'Oskars12', url:'git@github.com:KSkendere/ecommerce.git']]
 
 }
