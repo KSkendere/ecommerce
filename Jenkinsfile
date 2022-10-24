@@ -7,12 +7,12 @@ jdk 'myJava'}
 stages{
 stage('Test'){
 steps{
-bat 'mvn clean test'
+bat 'mvnw clean test'
 }
 }
 stage('Build'){
 steps{
-bat 'mvn -Dmaven.test.failure.ignore=true install'
+bat 'mvnw -Dmaven.test.failure.ignore=true install'
 }
 post{
 success{junit 'target/surefire-reports/**/*.xml'
