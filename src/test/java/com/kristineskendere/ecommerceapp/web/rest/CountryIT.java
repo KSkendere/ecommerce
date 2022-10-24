@@ -32,7 +32,6 @@ public class CountryIT {
 
         @Test
         public void testFindAllCountries () {
-
             Country country1 = createCountry();
             Country country2 = createSecondCountry();
             CountryDto countryDto1 = createCountryDto();
@@ -41,7 +40,6 @@ public class CountryIT {
             countriesList.add(country1);
             countriesList.add(country2);
             when(countryRepository.findAll()).thenReturn(countriesList);
-
             when(countryMapper.countryEntityToDto(country1)).thenReturn(countryDto1);
             when(countryMapper.countryEntityToDto(country2)).thenReturn(countryDto2);
             List<CountryDto> allCountries = countryServiceImpl.findAllCountries();
@@ -52,7 +50,6 @@ public class CountryIT {
             assertThat(allCountries.get(1).getId()).isEqualTo(2);
             assertThat(allCountries.get(1).getName()).isEqualTo("Test2");
             assertThat(allCountries.get(1).getCode()).isEqualTo("T2");
-
         }
 
 
