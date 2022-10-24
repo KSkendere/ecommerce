@@ -1,49 +1,25 @@
-pipeline {
+pipeline{
+
 agent any
-
+tools{
+maven 'myMaven'
+jdk 'myJava'}
 stages{
-
-// stage ('Checkout Codebase'){
-//
-// steps{
-// cleanWS()
-// checkout scm: [&class: 'GitSCM', branches:[[name:'*/main']],
-// userRemoteConfigs:[[username: 'KSkendere', password: 'Oskars12', url:'git@github.com:KSkendere/ecommerce.git']]]
-//
-// }
-// }
-
-stage ('Build'){
-
+stage('Test'){
 steps{
-// bat'mkdir lib'
-bat 'cd lib/:wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.7.0/junit-platform-console-standalone-1.7.0-all.jar'
-bat 'cd src; javac -cp"../lib/junit-platform-console-standalone-1.7.0-all.jar" CountryIT.java Country.java  EcommerceApplication.java'
-
+bat 'mvn clean test'
 }
 }
-
-stage ('Test'){
-
+stage('Build'){
 steps{
-
-bat 'cd src/ ; java- jar../lib/junit-platform-console-standalone-1.7.0-all.jar -cp"." --select-class CountryIT --reports-dir=reports"'
-
-
+bat 'mvn -Dmaven.test.failure.ignore=true install'
 }
-}
-
-stage ('Deploy'){
-
-steps{
-
-bat 'cd src/ ; java EcommerceApplication'
-
-
-
-}
+post{
+success{junit 'target/surefire-reports/**/*.xml'
+}}
 }
 
 
 }
+
 }
