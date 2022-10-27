@@ -24,8 +24,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-//@RunWith(MockitoJUnitRunner.class)
-
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 public class CountryServiceImplTest {
@@ -35,6 +33,7 @@ public class CountryServiceImplTest {
     private CountryMapper countryMapper;
     @InjectMocks
     private CountryServiceImpl countryServiceImpl;
+
     private  Country country1;
     private Country country2;
     private  CountryDto countryDto1;
@@ -50,7 +49,7 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    public void TestFindAllCountries () {
+     void TestFindAllCountries () {
 
         List<Country> countriesList = new ArrayList<>();
         countriesList.add(country1);
@@ -70,7 +69,7 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    public void findById() throws RecordNotFoundException {
+     void findById() throws RecordNotFoundException {
         when(countryRepository.findById(Mockito.anyInt())).thenReturn(java.util.Optional.of(country1));
         when(countryMapper.countryEntityToDto(Mockito.any())).thenReturn(countryDto1);
         CountryDto foundCountryDto = countryServiceImpl.findById(1);
@@ -78,21 +77,21 @@ public class CountryServiceImplTest {
         assertThat(foundCountryDto.getName()).isEqualTo("Test");
         assertThat(foundCountryDto.getCode()).isEqualTo("T1");
     }
-    @Test
 
-    public void saveCountry(){
+    @Test
+    void saveCountry() {
         when(countryRepository.save(Mockito.any())).thenReturn(country1);
         when(countryMapper.countryDtoToEntity(Mockito.any())).thenReturn(country1);
         when(countryMapper.countryEntityToDto(Mockito.any())).thenReturn(countryDto1);
         CountryDto savedCountryDto = countryServiceImpl.saveCountry(countryDto1);
         verify(countryRepository, times(1)).save(Mockito.any());
-assertThat(savedCountryDto.getId()).isEqualTo(1);
+        assertThat(savedCountryDto.getId()).isEqualTo(1);
         assertThat(savedCountryDto.getName()).isEqualTo("Test");
         assertThat(savedCountryDto.getCode()).isEqualTo("T1");
-
     }
+
     @Test
-    public void updateCountry() {
+    void updateCountry() {
         when(countryRepository.save(Mockito.any())).thenReturn(country1);
         when(countryMapper.countryDtoToEntity(Mockito.any())).thenReturn(country1);
         when(countryMapper.countryEntityToDto(Mockito.any())).thenReturn(countryDto1);
@@ -104,10 +103,9 @@ assertThat(savedCountryDto.getId()).isEqualTo(1);
     }
 
     @Test
-    public void deleteCountry() {
-countryServiceImpl.deleteCountry(1);
+     void deleteCountry() {
+        countryServiceImpl.deleteCountry(1);
         verify(countryRepository, times(1)).deleteById(Mockito.anyInt());
-
     }
 
 

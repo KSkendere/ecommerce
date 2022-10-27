@@ -64,7 +64,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void getCategoryTest() throws Exception {
+     void getCategoryTest() throws Exception {
 
         when(categoryService.getCategory(Mockito.anyLong())).thenReturn(categoryDto);
          mockMvc.perform(MockMvcRequestBuilders.get(URL+"/1"))
@@ -84,7 +84,7 @@ public class CategoryControllerTest {
 
 
     @Test
-    public void getCategoriesTest() throws Exception {
+    void getCategoriesTest() throws Exception {
         when(categoryService.getCategories()).thenReturn(categoryDtos);
         mockMvc.perform(MockMvcRequestBuilders.get(URL))
                 .andExpect(
@@ -102,7 +102,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void saveCategoryTest() throws Exception {
+    void saveCategoryTest() throws Exception {
         when(categoryService.saveCategory(Mockito.any())).thenReturn(categoryDto);
         mockMvc.perform(MockMvcRequestBuilders
                 .post(URL)

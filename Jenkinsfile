@@ -8,6 +8,7 @@ stages{
 stage('Test'){
 steps{
 bat 'mvnw clean test'
+bat 'mvnw failsafe:integration-test failsafe:verify'
 }
 }
 stage('Build'){

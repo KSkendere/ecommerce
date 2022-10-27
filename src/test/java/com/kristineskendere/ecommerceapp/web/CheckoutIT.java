@@ -36,7 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Sql(statements = {
         "INSERT INTO Product_category(id,category_name)VALUES(1,'Category Name')",
         "INSERT INTO Product(id,category_id,sku,name,description,unit_price,image_url, active,units_in_stock,date_created,last_updated) VALUES(2,1,'AC','TEST','Description',14.99, 'image_url', true,10,null,null)",
-
 })
 
 @AutoConfigureMockMvc
@@ -78,25 +77,23 @@ public class CheckoutIT<customer> {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
     }
-private PurchaseDto createPurchaseDto(){
-    PurchaseDto purchaseDto = new PurchaseDto();
 
-    Customer customer = createCustomer();
-    Address shippingAddress = createShippingAddress();
-    Address billingAddress = createBillingAddress();
-    Order order = createOrder();
-    Set<OrderItem> orderItems = createOrderItems();
-    purchaseDto.setCustomer(customer);
-    purchaseDto.setShippingAddress(shippingAddress);
-    purchaseDto.setBillingAddress(billingAddress);
-    purchaseDto.setOrder(order);
-    purchaseDto.setOrderItems(orderItems);
+    private PurchaseDto createPurchaseDto() {
+        PurchaseDto purchaseDto = new PurchaseDto();
+
+        Customer customer = createCustomer();
+        Address shippingAddress = createShippingAddress();
+        Address billingAddress = createBillingAddress();
+        Order order = createOrder();
+        Set<OrderItem> orderItems = createOrderItems();
+        purchaseDto.setCustomer(customer);
+        purchaseDto.setShippingAddress(shippingAddress);
+        purchaseDto.setBillingAddress(billingAddress);
+        purchaseDto.setOrder(order);
+        purchaseDto.setOrderItems(orderItems);
         return purchaseDto;
-}
-
-
+    }
 
     private Customer createCustomer() {
         Customer customer = new Customer();
