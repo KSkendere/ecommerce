@@ -1,4 +1,6 @@
-C:\Users\kristine.skendere\IdeaProjects\ecommerce\src\main\resources\application.properties
+/src/main/resources/application.properties
+
+/src/test/resources/application.properties
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

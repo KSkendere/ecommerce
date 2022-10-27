@@ -1,5 +1,7 @@
 package com.kristineskendere.ecommerceapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,8 +19,9 @@ public class State {
     @NotBlank(message = "State name is required.")
     @Column(name="name")
     private String name;
-    @NotEmpty(message = "Country is required.")
     @ManyToOne
+//    @JsonIgnoreProperties(value ={"state"}, allowSetters= true)
+//    @JsonIgnore
     @JoinColumn(name="country_id")
     private Country country;
 

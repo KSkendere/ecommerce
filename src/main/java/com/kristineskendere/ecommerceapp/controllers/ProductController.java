@@ -2,13 +2,10 @@ package com.kristineskendere.ecommerceapp.controllers;
 
 
 import com.kristineskendere.ecommerceapp.dtos.ProductDto;
-import com.kristineskendere.ecommerceapp.exceptions.ProductNotFoundException;
 import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
-import com.kristineskendere.ecommerceapp.models.Product;
 import com.kristineskendere.ecommerceapp.services.ProductService;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -16,8 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.List;
+
 //@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/ecommerce")
@@ -73,7 +69,7 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping(value={"/products/admin/{id}"})
-    public ResponseEntity<ProductDto>  deleteProduct(@NonNull @PathVariable Long id) throws RecordNotFoundException, ProductNotFoundException {
+    public ResponseEntity<ProductDto>  deleteProduct(@NonNull @PathVariable Long id) throws RecordNotFoundException {
 
         ProductDto productDto = productService.getProductDtoById(id);
 

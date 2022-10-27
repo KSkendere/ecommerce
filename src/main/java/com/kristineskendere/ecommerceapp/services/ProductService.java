@@ -1,6 +1,5 @@
 package com.kristineskendere.ecommerceapp.services;
 import com.kristineskendere.ecommerceapp.dtos.ProductDto;
-import com.kristineskendere.ecommerceapp.exceptions.ProductNotFoundException;
 import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
 import com.kristineskendere.ecommerceapp.models.Product;
 import org.springframework.data.domain.Page;

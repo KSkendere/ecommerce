@@ -1,6 +1,7 @@
 package com.kristineskendere.ecommerceapp.dtos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kristineskendere.ecommerceapp.models.Country;
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -17,8 +18,9 @@ public class StateDto implements Serializable {
     private int id;
     @NotBlank(message = "State name is required.")
     private String name;
-    @NotEmpty(message = "Country is required.")
-    private Country country;
+//    @NotEmpty(message = "Country is required.")
+//    @JsonIgnoreProperties(value ={"state"}, allowSetters= true)
+    private CountryDto countryDto;
 
 
     public int getId() {
@@ -36,12 +38,14 @@ public class StateDto implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    @JsonBackReference
-    public Country getCountry() {
-        return country;
+//    @JsonBackReference
+
+
+    public CountryDto getCountryDto() {
+        return countryDto;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setCountryDto(CountryDto countryDto) {
+        this.countryDto = countryDto;
     }
 }

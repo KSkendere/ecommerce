@@ -2,6 +2,7 @@ package com.kristineskendere.ecommerceapp.dtos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kristineskendere.ecommerceapp.models.State;
 import lombok.Data;
@@ -20,17 +21,14 @@ public class CountryDto implements  Serializable {
 
     private int id;
     @NotEmpty(message = "Country code is required.")
-    @Size(min = 3, max = 3, message = "Country code must be between 3 characters long")
+    @Size(min = 2, max = 2, message = "Country code must 2 characters long")
     private String code;
     @NotBlank(message = "Country name is required.")
     private String name;
 //@JsonIgnore
-    private List<State> state;
+//    @JsonIgnoreProperties(value ={"country"}, allowSetters= true)
+    private List<StateDto> stateDto;
 
-    public CountryDto() {
-
-
-    }
 
 
 
@@ -60,12 +58,13 @@ public class CountryDto implements  Serializable {
 
     @JsonBackReference
 
-    public List<State> getState() {
-        return state;
+
+    public List<StateDto> getStateDto() {
+        return stateDto;
     }
 
-    public void setState(List<State> state) {
-        this.state = state;
+    public void setStateDto(List<StateDto> stateDto) {
+        this.stateDto = stateDto;
     }
 }
 

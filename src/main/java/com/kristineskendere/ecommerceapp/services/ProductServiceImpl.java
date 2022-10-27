@@ -3,10 +3,10 @@ package com.kristineskendere.ecommerceapp.services;
 
 import com.kristineskendere.ecommerceapp.dtos.ProductDto;
 import com.kristineskendere.ecommerceapp.dtos.mappers.ProductMapper;
-import com.kristineskendere.ecommerceapp.exceptions.ProductNotFoundException;
 import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
 import com.kristineskendere.ecommerceapp.models.Product;
 import com.kristineskendere.ecommerceapp.repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,12 +32,13 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductDto getProductDtoById(Long id) throws RecordNotFoundException {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("product not Found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Product not Found"));
         return productMapper.productEntityToDto(product);
     }
 
     @Override
     public ProductDto saveProduct(ProductDto productDto) {
+
         Product product = productMapper.productDtoToEntity(productDto);
         Product savedProduct = productRepository.save(product);
         return productMapper.productEntityToDto(savedProduct);

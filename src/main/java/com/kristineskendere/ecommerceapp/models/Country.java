@@ -1,5 +1,7 @@
 package com.kristineskendere.ecommerceapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,13 +19,17 @@ public class Country {
     @Column(name = "id")
     private int id;
     @NotEmpty(message = "Country code is required.")
-    @Size(min = 3, max = 3, message = "Country code must be between 3 characters long")
+    @Size(min = 2, max = 2, message = "Country code must be 2 characters long")
     @Column(name = "code",unique = true)
     private String code;
     @NotBlank(message = "Country name is required.")
     @Column(name = "name",unique = true)
     private String name;
-    @OneToMany (mappedBy = "country")
+    @OneToMany (mappedBy = "country",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+//    @JsonIgnore
+//    @JsonIgnoreProperties(value ={"country"}, allowSetters= true)
     private List<State> state;
 
     public int getId() {

@@ -45,18 +45,18 @@ public class StateController {
     }
 
     @PostMapping (value = { "/states"})
-    public ResponseEntity<StateDto> saveState(@RequestBody StateDto stateDto){
+    public ResponseEntity<StateDto> saveState(@Valid @RequestBody StateDto stateDto){
         StateDto savedStateDto = stateService.saveState(stateDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedStateDto);
     }
 
     @PutMapping (value = { "/states/{id}"})
-    public ResponseEntity<StateDto> saveState(@NonNull @PathVariable int id, @Valid @RequestBody StateDto stateDto){
+    public ResponseEntity<StateDto> updateState(@NonNull @PathVariable int id, @Valid @RequestBody StateDto stateDto){
         StateDto updatedStateDto = stateService.updateState(id,stateDto);
         return ResponseEntity.ok(updatedStateDto);
     }
 
-    @DeleteMapping (value = { "/states/{id}"})
+    @DeleteMapping (value = {"/states/{id}"})
     public ResponseEntity<StateDto> deleteState(@NonNull @PathVariable int id) throws RecordNotFoundException {
         StateDto foundStateDto = stateService.findStateById(id);
         stateService.deleteState(id);

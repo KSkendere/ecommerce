@@ -3,9 +3,12 @@ package com.kristineskendere.ecommerceapp.dtos.mappers;
 import com.kristineskendere.ecommerceapp.dtos.ProductDto;
 import com.kristineskendere.ecommerceapp.models.Product;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
 
+
 import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
@@ -28,12 +31,3 @@ public interface ProductMapper {
     }
 
 }
-
-
-
-
-
-
-
-
-
