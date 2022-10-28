@@ -3,15 +3,15 @@ package com.kristineskendere.ecommerceapp.config;
 import com.kristineskendere.ecommerceapp.jwt.JwtTokenFilter;
 import com.kristineskendere.ecommerceapp.models.authModels.User;
 import com.kristineskendere.ecommerceapp.repositories.authRepositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,12 +30,15 @@ import java.util.Set;
 @Configuration
 public class ApplicationSecurityConfig  {
 
-    @Autowired
+
     private UserRepository userRepository;
-    @Autowired
+
     JwtTokenFilter jwtTokenFilter;
-//    @Autowired
-//    JwtTokenService jwtTokenService;
+
+    public ApplicationSecurityConfig(UserRepository userRepository, JwtTokenFilter jwtTokenFilter) {
+        this.userRepository = userRepository;
+        this.jwtTokenFilter = jwtTokenFilter;
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -52,18 +55,14 @@ public class ApplicationSecurityConfig  {
                 }
             }
         };
-
     }
 
-    private Set getAuthorities(User user){
-        Set <SimpleGrantedAuthority>authorities = new HashSet();
-        user.getRoles().forEach(role->{
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName()));
-        });
-
+    private Set <SimpleGrantedAuthority> getAuthorities(User user){
+        Set <SimpleGrantedAuthority>authorities = new HashSet<>();
+        user.getRoles().forEach(role->
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getName())));
         return authorities;
     }
-
 
         @Bean
     public PasswordEncoder passwordEncoder() {
@@ -76,7 +75,6 @@ public class ApplicationSecurityConfig  {
         return authConfig.getAuthenticationManager();
     }
 
-
         @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
             http.cors();
@@ -84,76 +82,18 @@ public class ApplicationSecurityConfig  {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-//                .antMatchers("/auth/login", "/docs/**", "/error").permitAll()
-//                .anyRequest().authenticated();
                 .antMatchers(("/api/ecommerce/products/admin/**")).hasRole("admin")
                 .anyRequest().permitAll();
 
         http.exceptionHandling()
                 .authenticationEntryPoint(
-                        (request, response, ex) -> {
+                        (request, response, ex) ->
                             response.sendError(
                                     HttpServletResponse.SC_UNAUTHORIZED,
-                                    ex.getMessage()
-                            );
-                        }
-                );
+                                    ex.getMessage()));
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder(){
-    //        return new BCryptPasswordEncoder();
-//    }
-
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(username -> userRepository.findByEmail(username)
-//                .orElseThrow(()-> new UsernameNotFoundException( "User" + username+"not found"))
-//        );
-//    }
-
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService((username -> (UserDetails) userRepository.findByEmail(username)
-//                .orElseThrow(()-> new UsernameNotFoundException( "User" + username+"not found"))
-//        ));
-//    }
-
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//    }
-//
-//
-//
-//    @Override
-//    protected void configure(HttpSecurity httpSecurity) throws Exception {
-////        httpSecurity.cors();
-//        httpSecurity.csrf().disable();
-//        httpSecurity.authorizeRequests()
-//                .antMatchers("/auth/login","/error").permitAll()
-//                .anyRequest().authenticated();
-//
-//
-////        httpSecurity.authorizeRequests().antMatchers("/authenticate", "/registerNewUser").permitAll()
-////                .antMatchers(HttpHeaders.ALLOW).permitAll()
-////                .anyRequest().authenticated();
-//        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        httpSecurity.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-//            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-//        });
-//
-//        httpSecurity.addFilterBefore(jwtTokenFilter,UsernamePasswordAuthenticationFilter.class);
-//
-//    }
-
-
-
 }

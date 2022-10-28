@@ -2,7 +2,6 @@ package com.kristineskendere.ecommerceapp.models;
 
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

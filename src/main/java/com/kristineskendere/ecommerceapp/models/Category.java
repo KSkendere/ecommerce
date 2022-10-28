@@ -1,13 +1,11 @@
 package com.kristineskendere.ecommerceapp.models;
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 
 

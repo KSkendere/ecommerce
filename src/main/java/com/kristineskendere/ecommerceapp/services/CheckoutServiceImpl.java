@@ -9,7 +9,6 @@ import com.kristineskendere.ecommerceapp.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,11 +31,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         order.setOrderTrackerNumber(orderTrackingNumber);
         //populate order with order items
         Set<OrderItem> orderItems = purchaseDto.getOrderItems();
-//        for(OrderItem orderItem:orderItems){
-//            order.add(orderItem);
-//        }
         orderItems.forEach(order::add);
-
         //populate order with billingAddress and shippingAddress
         order.setBillingAddress(purchaseDto.getBillingAddress());
         order.setShippingAddress(purchaseDto.getShippingAddress());
@@ -48,8 +43,6 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (customerFromDb != null) {
             customer = customerFromDb;
         }
-//            customer.addOrder(order);
-//        }else {
             customer.addOrder(order);
             // save to the database
             customerRepository.save(customer);

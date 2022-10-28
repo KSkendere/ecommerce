@@ -1,8 +1,6 @@
 package com.kristineskendere.ecommerceapp.dtos.mappers;
 
-import com.kristineskendere.ecommerceapp.dtos.AddressDto;
 import com.kristineskendere.ecommerceapp.dtos.CategoryDto;
-import com.kristineskendere.ecommerceapp.models.Address;
 import com.kristineskendere.ecommerceapp.models.Category;
 import org.mapstruct.Mapper;
 

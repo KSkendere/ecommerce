@@ -1,7 +1,5 @@
 package com.kristineskendere.ecommerceapp.models.authModels;
 
-import com.kristineskendere.ecommerceapp.models.authModels.Role;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

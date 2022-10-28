@@ -1,10 +1,8 @@
 package com.kristineskendere.ecommerceapp.controllers;
 
 
-import com.kristineskendere.ecommerceapp.dtos.CategoryDto;
 import com.kristineskendere.ecommerceapp.dtos.ProductDto;
 import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
-import com.kristineskendere.ecommerceapp.models.Category;
 import com.kristineskendere.ecommerceapp.services.CategoryService;
 import com.kristineskendere.ecommerceapp.services.ProductService;
 
@@ -17,25 +15,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/ecommerce")
 public class ProductController {
 
     ProductService productService;
-
     CategoryService categoryService;
 
     public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
         this.categoryService = categoryService;
     }
-
-//    @GetMapping(value = { "/products"})
-//    public @NotNull ResponseEntity<List<Product>> getProducts() {
-//        List<Product> products = productService.getAllProducts();
-//        return ResponseEntity.status(HttpStatus.OK).body(products);
-//    }
 
     @GetMapping(value = { "/products"})
     public  ResponseEntity<Page<ProductDto>> getProductsWithPagination(@NonNull @RequestParam int pageNo, @NonNull@RequestParam int pageSize) {
@@ -54,42 +44,31 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productDtoSaved);
     }
 
-//    @GetMapping(value = { "/products/categoryId/{id}"})
-//    public @NotNull ResponseEntity <List<Product>>getProductByCategoryId(@PathVariable Long id) {
-//    List<Product> products = productService.getProductByCategoryId(id);
-//
-//    return ResponseEntity.status(HttpStatus.OK).body(products);
-//    }
-
-    @GetMapping(value = { "/products/categoryId/{id}"})@NonNull
-    public ResponseEntity <Page<ProductDto>>getProductByCategoryIdWithPagination(@NonNull @PathVariable Long id, @NonNull @RequestParam int pageNo, @NonNull @RequestParam int pageSize) throws RecordNotFoundException {
-//        Page<ProductDto> products = productService.getProductByCategoryIdWithPagination(id, pageNo,pageSize);
-        CategoryDto category = categoryService.getCategory(id);
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByCategoryIdWithPagination(id, pageNo,pageSize));
+    @GetMapping(value = {"/products/categoryId/{id}"})
+    @NonNull
+    public ResponseEntity<Page<ProductDto>> getProductByCategoryIdWithPagination(@NonNull @PathVariable Long id, @NonNull @RequestParam int pageNo, @NonNull @RequestParam int pageSize) throws RecordNotFoundException {
+        categoryService.getCategory(id);
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByCategoryIdWithPagination(id, pageNo, pageSize));
     }
 
-    @GetMapping(value = { "/products/searchname"})
-    public  ResponseEntity<Page<ProductDto>> getProductsBySearchName(@NonNull @RequestParam String searchName, @NonNull @RequestParam int pageNo, @NonNull @RequestParam int pageSize) {
-        Page<ProductDto> productsDto = productService.findProductBySearchName(searchName,pageNo,pageSize);
+    @GetMapping(value = {"/products/searchname"})
+    public ResponseEntity<Page<ProductDto>> getProductsBySearchName(@NonNull @RequestParam String searchName, @NonNull @RequestParam int pageNo, @NonNull @RequestParam int pageSize) {
+        Page<ProductDto> productsDto = productService.findProductBySearchName(searchName, pageNo, pageSize);
         return ResponseEntity.status(HttpStatus.OK).body(productsDto);
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @DeleteMapping(value={"/products/admin/{id}"})
-    public ResponseEntity<ProductDto>  deleteProduct(@NonNull @PathVariable Long id) throws RecordNotFoundException {
-
+    @DeleteMapping(value = {"/products/admin/{id}"})
+    public ResponseEntity<ProductDto> deleteProduct(@NonNull @PathVariable Long id) throws RecordNotFoundException {
         ProductDto productDto = productService.getProductDtoById(id);
-
         productService.deleteProduct(id);
-
         return ResponseEntity.ok(productDto);
     }
+
     @PreAuthorize("hasAuthority('admin')")
     @PutMapping(value={"/products/admin/{id}"})
     public ResponseEntity<ProductDto>  updateProduct(@NonNull @PathVariable Long id, @Valid @RequestBody ProductDto productDto  ){
-
         ProductDto productDtoSaved = productService.updateProduct(id, productDto);
-
         return ResponseEntity.ok(productDtoSaved);
     }
 }

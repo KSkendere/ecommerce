@@ -4,7 +4,6 @@ import com.kristineskendere.ecommerceapp.models.authModels.Role;
 import com.kristineskendere.ecommerceapp.models.authModels.User;
 import com.kristineskendere.ecommerceapp.repositories.authRepositories.RoleRepository;
 import com.kristineskendere.ecommerceapp.repositories.authRepositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

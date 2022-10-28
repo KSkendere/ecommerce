@@ -3,8 +3,6 @@ package com.kristineskendere.ecommerceapp.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,7 +15,6 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000;//24h * minutes* seconds * milliseconds (1 second = 1000 milliseconds)
     @Value("${app.jwt.secret}")
     private String secretKey;
@@ -37,7 +34,7 @@ public class JwtTokenUtil {
 
     public boolean validateToken(String token, UserDetails userDetails){
         String userNameFromToken = getUserNameFromToken(token);
-        return ((userNameFromToken.equals(userDetails.getUsername()) && !isTokenExpired(token)));
+        return (userNameFromToken.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     private boolean isTokenExpired(String token){

@@ -1,13 +1,10 @@
 package com.kristineskendere.ecommerceapp.models;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "adress")
+@Table(name = "address")
 
 
 public class Address {

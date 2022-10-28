@@ -1,8 +1,5 @@
 package com.kristineskendere.ecommerceapp.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table
-//@Data
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +24,6 @@ public class Country {
     @OneToMany (mappedBy = "country",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-//    @JsonIgnore
-//    @JsonIgnoreProperties(value ={"country"}, allowSetters= true)
     private List<State> state;
 
     public int getId() {

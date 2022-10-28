@@ -2,7 +2,6 @@ package com.kristineskendere.ecommerceapp.controllers;
 
 import com.kristineskendere.ecommerceapp.dtos.CategoryDto;
 import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
-import com.kristineskendere.ecommerceapp.models.Category;
 import com.kristineskendere.ecommerceapp.services.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +9,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
-//@CrossOrigin(origins = "http://localhost:4200")
+
 @RestController
 @RequestMapping("/api/ecommerce")
 public class CategoryController {
@@ -22,6 +20,7 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
+
     @PostMapping(value = {"categories"})
     public ResponseEntity<CategoryDto> saveCategory(@Valid @RequestBody CategoryDto categoryDto) {
         CategoryDto savedCategoryDto = categoryService.saveCategory(categoryDto);
@@ -29,7 +28,7 @@ public class CategoryController {
     }
 
     @GetMapping(value = {"categories"})
-    public ResponseEntity<List<CategoryDto>>getCategories(){
+    public ResponseEntity<List<CategoryDto>> getCategories() {
         List<CategoryDto> categoriesDto = categoryService.getCategories();
         return ResponseEntity.ok(categoriesDto);
     }
@@ -46,6 +45,5 @@ public class CategoryController {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok(categorydto);
     }
-
 
 }
