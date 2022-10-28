@@ -1,8 +1,11 @@
 package com.kristineskendere.ecommerceapp.controllers;
 
 
+import com.kristineskendere.ecommerceapp.dtos.CategoryDto;
 import com.kristineskendere.ecommerceapp.dtos.ProductDto;
 import com.kristineskendere.ecommerceapp.exceptions.RecordNotFoundException;
+import com.kristineskendere.ecommerceapp.models.Category;
+import com.kristineskendere.ecommerceapp.services.CategoryService;
 import com.kristineskendere.ecommerceapp.services.ProductService;
 
 import org.springframework.data.domain.Page;
@@ -21,8 +24,11 @@ public class ProductController {
 
     ProductService productService;
 
-    public ProductController(ProductService productService) {
+    CategoryService categoryService;
+
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
 //    @GetMapping(value = { "/products"})
@@ -56,8 +62,9 @@ public class ProductController {
 //    }
 
     @GetMapping(value = { "/products/categoryId/{id}"})@NonNull
-    public ResponseEntity <Page<ProductDto>>getProductByCategoryIdWithPagination(@NonNull @PathVariable Long id, @NonNull @RequestParam int pageNo, @NonNull @RequestParam int pageSize) {
+    public ResponseEntity <Page<ProductDto>>getProductByCategoryIdWithPagination(@NonNull @PathVariable Long id, @NonNull @RequestParam int pageNo, @NonNull @RequestParam int pageSize) throws RecordNotFoundException {
 //        Page<ProductDto> products = productService.getProductByCategoryIdWithPagination(id, pageNo,pageSize);
+        CategoryDto category = categoryService.getCategory(id);
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByCategoryIdWithPagination(id, pageNo,pageSize));
     }
 

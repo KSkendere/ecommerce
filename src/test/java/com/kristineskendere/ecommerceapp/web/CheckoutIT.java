@@ -14,6 +14,8 @@ import com.kristineskendere.ecommerceapp.repositories.authRepositories.UserRepos
 import com.kristineskendere.ecommerceapp.services.CheckoutService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,9 +30,11 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Sql(statements = {
@@ -40,16 +44,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CheckoutIT<customer> {
+public class CheckoutIT {
+
+    private static final Logger log = LoggerFactory.getLogger(CheckoutIT.class);
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private CheckoutService checkoutService;
     @MockBean
     private JwtTokenUtil jwtTokenUtil;
     @MockBean
@@ -76,7 +78,18 @@ public class CheckoutIT<customer> {
                 .content(asJsonString(purchaseDto))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderTrackingNumber").isNotEmpty())
+                .andExpect(jsonPath("$.orderTrackingNumber").isString())
+                .andExpect(jsonPath("$.orderTrackingNumber", hasLength(36)));
+
+
+
+
+//                .andExpect(jsonPath("$.content", hasSize(1)))
+//        .andExpect(jsonPath("$.id").value(1))
+//                .andExpect(jsonPath("$.customer.firsName", equalToIgnoringCase(purchaseDto.getCustomer().getFirstName())));
+
     }
 
     private PurchaseDto createPurchaseDto() {

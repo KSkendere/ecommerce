@@ -15,6 +15,8 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +26,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-public class CategoryServiceImplTest {
+class CategoryServiceImplTest {
 
     @Mock
     private CategoryRepository categoryRepository;
@@ -39,6 +41,8 @@ public class CategoryServiceImplTest {
     private CategoryDto categoryDto2;
     private List <Category> categories;
     private List <CategoryDto>categoriesDto;
+    private List <Category> emptyCategories;
+    private List <CategoryDto> emptyCategoriesDto;
 
     @BeforeEach
     public void setup(){
@@ -48,6 +52,8 @@ public class CategoryServiceImplTest {
         categoryDto2 = createCategoryDto2();
         categories = createCategoryList();
         categoriesDto = createCategoryDtoList();
+        emptyCategories = new ArrayList<>();
+        emptyCategoriesDto = new ArrayList<>();
     }
 
     @Test
@@ -62,6 +68,14 @@ public class CategoryServiceImplTest {
     }
 
     @Test
+    void testSaveCategory_IfPassedInInformationNotCorrect_ThenIllegalArgumentExceptionIsThrown(){
+        when(categoryRepository.save(Mockito.any())).thenThrow(new IllegalArgumentException());
+        when(categoryMapper.categoryDtoToEntity(categoryDto1)).thenReturn(category1);
+        assertThrows(IllegalArgumentException.class, ()->categoryServiceImpl.saveCategory(categoryDto1));
+        verify(categoryRepository,times(1)).save(Mockito.any());
+    }
+
+    @Test
     void testGetCategory() throws RecordNotFoundException {
         when(categoryRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(category1));
         when(categoryMapper.categoryEntityToDto(Mockito.any())).thenReturn(categoryDto1);
@@ -72,9 +86,23 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    void testGetCategories() throws RecordNotFoundException {
+    void testGetCategory_IfNotExistingCategoryId_ThrowRecordNotFoundExceptionException() {
+        when(categoryRepository.findById(null)).thenThrow(new RuntimeException());
+        assertThrows(RecordNotFoundException.class, ()->categoryServiceImpl.getCategory(Mockito.anyLong()));
+        verify(categoryRepository,times(1)).findById(Mockito.anyLong());
+    }
+
+    @Test
+    void testGetCategory_IfThereIsNothingToReturn_ThrowRecordNotFoundExceptionException() {
+        when(categoryRepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(RecordNotFoundException.class, ()->categoryServiceImpl.getCategory(Mockito.anyLong()));
+        verify(categoryRepository,times(1)).findById(Mockito.anyLong());
+    }
+
+    @Test
+    void testGetCategories()  {
         when(categoryRepository.findAll()).thenReturn(categories);
-        when(categoryMapper.categoryEntityToDtoList(Mockito.any())).thenReturn(createCategoryDtoList());
+        when(categoryMapper.categoryEntityToDtoList(Mockito.any())).thenReturn(categoriesDto);
         List<CategoryDto> foundCategories = categoryServiceImpl.getCategories();
         assertThat(foundCategories).hasSize(2);
         assertThat(foundCategories.get(0).getId()).isEqualTo(category1.getId());
@@ -85,11 +113,26 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    void testDeleteCategories() throws RecordNotFoundException {
+    void testGetCategories_ifThereIsNoCategories_EmptyListIsReturned()  {
+        when(categoryRepository.findAll()).thenReturn(emptyCategories);
+        when(categoryMapper.categoryEntityToDtoList(Mockito.any())).thenReturn(emptyCategoriesDto);
+        List<CategoryDto> foundCategories = categoryServiceImpl.getCategories();
+        assertThat(foundCategories).isEmpty();
+        verify(categoryRepository,times(1)).findAll();
+    }
+
+    @Test
+    void testDeleteCategories() {
         categoryServiceImpl.deleteCategory(Mockito.anyLong());
         verify(categoryRepository,times(1)).deleteById(Mockito.anyLong());
     }
 
+    @Test
+    void tesDeleteCategory_IfNotExistingCategoryId_ThrowIllegalArgumentException() {
+        doThrow(new IllegalArgumentException()).when(categoryRepository).deleteById(null);
+        assertThrows(IllegalArgumentException.class, ()->categoryServiceImpl.deleteCategory(null));
+        verify(categoryRepository,times(1)).deleteById(null);
+    }
 
     private Category createCategory(){
         Category category = new Category();
@@ -102,6 +145,13 @@ public class CategoryServiceImplTest {
         Category category = new Category();
         category.setId(2L);
         category.setCategoryName("TestCategory2");
+        return category;
+    }
+
+    private Category createEmptyCategory(){
+        Category category = new Category();
+        category.setId(null);
+        category.setCategoryName(null);
         return category;
     }
 

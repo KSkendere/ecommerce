@@ -74,6 +74,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     @Test
     @Transactional
+    void testGetProductByID_productIsNotPresent_ExceptionIsThrown() throws Exception {
+        mockMvc.perform(get(baseUrl + "/5"))
+                .andExpect(status().isNotFound())
+                .andExpect(result-> Assertions.assertTrue(result.getResolvedException()instanceof RecordNotFoundException))
+                .andExpect(result-> Assertions.assertEquals("Product not Found", result.getResolvedException().getMessage()));
+    }
+
+    @Test
+    @Transactional
 //    @Sql(statements = {"DELETE FROM Product_category", "DELETE FROM Product_category"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void testGetAllProductsWithPagination() throws Exception {
         mockMvc.perform(get(baseUrl + "/?pageNo=0&pageSize=5"))
@@ -95,6 +104,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
         assertEquals(2, productRepository.findAll().size());
+    }
+
+    @Test
+    @Transactional
+    void testGetProductByCategoryIdWithPagination_CategoryIsNotPresent_ExceptionIsThrown() throws Exception {
+        mockMvc.perform(get(baseUrl + "/categoryId/5?pageNo=0&pageSize=5"))
+                .andExpect(
+                        mvcResult -> {
+                            log.info("CONTENT {}", mvcResult.getResponse().getContentAsString());
+                        }
+                )
+                .andExpect(status().isNotFound())
+                .andExpect(result-> Assertions.assertTrue(result.getResolvedException()instanceof RecordNotFoundException))
+                .andExpect(result-> Assertions.assertEquals("Category with such id not found", result.getResolvedException().getMessage()));
     }
 
     @Test
@@ -125,7 +148,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         assertEquals(1, productRepository.findAll().size());
     }
 
-
     @WithMockUser(username = "test", password = "test", roles = "admin")
     @Test
     @Transactional
@@ -145,11 +167,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     @Test
     @Transactional
     void saveProduct() throws Exception {
-
         assertEquals(2, productRepository.findAll().size());
-
         ProductDto productDto = createProductDto();
-
         mockMvc.perform(post(baseUrl + "/admin")
                 .with(csrf())
                 .content(asJsonString(productDto))
